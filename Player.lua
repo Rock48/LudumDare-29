@@ -7,7 +7,7 @@ function Player:initialize()
   self.currentWeight = 0
   self.currentAir = 0
   self.airCapacity = 0
-  self.maxDepth = 0
+  self.maxDepth = 1000
   self.inventory = {}
 end
 

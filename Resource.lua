@@ -2,7 +2,7 @@ Resource = class("Resource")
 function Resource:initialize(name, weight, texture, r, g, b)
   self.name = name
   
-  self.amount = 0
+  self.amount = 20000
   self.weight = weight
   
   self.texture = texture
