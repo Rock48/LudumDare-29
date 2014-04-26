@@ -19,6 +19,7 @@ function ResourceNode:draw()
   love.graphics.setColor(self.resource:getTexture())
   love.graphics.rectangle("fill",self.x,self.y,RESOURCE_SIZE,RESOURCE_SIZE)
   love.graphics.setFont(resource_amt_font)
-  love.graphics.printf(self.size,self.x+RESOURCE_SIZE/2, self.y + RESOURCE_SIZE + 10, 0, "center")
+  love.graphics.setColor(255,255,255)
+  love.graphics.printf(self.size,self.x+RESOURCE_SIZE/2, self.y + RESOURCE_SIZE - 20, 0, "center")
   love.graphics.setFont(ui_font)
 end
