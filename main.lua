@@ -8,12 +8,10 @@ require "Player"
 require "ResourceNode"
 require "CraftingAndInventory"
 
-
-
-MAIN_MENU = 0
 CRAFTING_MENU = 1
 EXPLORING = 2
 EXPLORING_OVERVIEW = 3
+WIN = 4
 
 gamestate = CRAFTING_MENU
 
@@ -26,6 +24,8 @@ function table.set(t) -- set of list
 end
 
 function love.load(arg)
+  
+  --require("mobdebug").start()
   
   oil = love.graphics.newImage("oil.png")
   iron = love.graphics.newImage("iron.png")
@@ -43,15 +43,18 @@ function love.load(arg)
   resources["iron"] = Resource:new("Iron", nil, iron, 140, 50, 20)
   resources["plastic"] = Resource:new("Plastic", nil, nil, nil, nil, nil)
   resources["oil"] = Resource:new("Oil",nil,oil,50,50,50)
+  resources["uranium"] = Resource:new("Uranium",nil,nil,0,255,0)
+  resources["powerCrystal"] = Resource:new("Power Crystal",nil,nil,0,150,255)
   
   bg = love.graphics.newImage("oceanBackground.png")
   bg:setWrap("repeat","repeat")
   
   bgQuad = love.graphics.newQuad(0, 0, love.window.getWidth(), love.window.getHeight() + 64, 64, 64)
-  
 end
 
 PLAYER_SPEED = 120
+
+
 
 function love.update(dt)
   if(gamestate ~= MAIN_MENU) then
@@ -120,6 +123,14 @@ function love.update(dt)
     end
     
   end
+  
+  if(gamestate == WIN) then
+    rotation_amount = rotation_amount - dt * 30
+    light1.setDirection(math.rad(rotation_amount))
+    light2.setDirection(math.rad(rotation_amount+120))
+    light3.setDirection(math.rad(rotation_amount+240))
+  end
+  
 end
 
 shake_mult = 0
@@ -129,26 +140,29 @@ function love.draw()
   
   love.graphics.setColor(255,255,255)
   if(gamestate == EXPLORING) then
-    love.graphics.translate(math.random()*shake_mult*2-shake_mult,math.random()*shake_mult*2-shake_mult)
+    
     
     love.graphics.push()
-      
-       love.graphics.draw(bg, bgQuad, 0, -cam_y % 64 -64)
-      
       --shake test
       
-      
+      love.graphics.translate(math.random()*shake_mult*2-shake_mult,math.random()*shake_mult*2-shake_mult)
+      love.graphics.draw(bg, bgQuad, 0, -cam_y % 64 -64)
       love.graphics.translate(0,-cam_y)
-      love.graphics.setColor(180,180,255)
+      love.graphics.setColor(150,180,255)
       love.graphics.rectangle("fill",0,0,800,-600)
+      --love.graphics.draw(bg,0,0)
+      love.graphics.setColor(255,255,255)
       for k, v in pairs(nodes) do
         v:draw()
       end
       love.graphics.setColor(0,150,0)
+      
       player:draw()
     love.graphics.pop()
-    love.graphics.setColor(255,255,255)
-    love.graphics.print("Air: "..round(player.currentAir,2).." / "..player.airCapacity.."\nDepth: "..player.y.."/"..round(player.maxDepth, 2), 0,0)
+    
+    
+    
+    love.graphics.print("Air: "..round(player.currentAir,1).." / "..player.airCapacity.."\nDepth: "..round(player.y,0).."/"..player.maxDepth, 0,0)
     if(shake_mult > 7) then
       love.graphics.setColor(255,0,0)
       love.graphics.printf("Pressure Nearing Critical!!!", 400,100,0,"center")
@@ -177,9 +191,29 @@ function love.draw()
     love.graphics.print(res_string.."\nStats:\nMax Depth\n"..player.maxDepth.."\nSpeed: "..PLAYER_SPEED.."\nAir: "..player.airCapacity, 0,0)
     
   end
+  
+  if(gamestate == WIN) then
+    
+    love.graphics.setColor(255,255,255)
+    
+    lightWorld.update()
+    
+    love.graphics.rectangle("fill",0,0,800,600)
+    
+    lightWorld.drawShadow()
+    
+    love.graphics.draw(winImg,0,0)
+    
+    love.graphics.printf("Contratulations! You Escaped!", 0,500, 800, "center")
+    
+    lightWorld.drawShine()
+    
+  end
+  
   love.graphics.setFont(gui_font)
   gui.core.draw()
   love.graphics.setFont(ui_font)
+  
 end
 
 OCEAN_DEPTH = 20000
@@ -197,9 +231,12 @@ function genWorld()
         table.insert(nodes, ResourceNode:new(resources["iron"], j*SPARSITY, i*SPARSITY, math.random(1, 15)))
       elseif(rand<7) then
         table.insert(nodes, ResourceNode:new(resources["oil"], j*SPARSITY, i*SPARSITY, math.random(1, 5)))
+      elseif(rand<8 and i*SPARSITY>10000) then
+        table.insert(nodes, ResourceNode:new(resources["uranium"], j*SPARSITY, i*SPARSITY, math.random(1, 1)))
       end
     end
   end
+  table.insert(nodes, ResourceNode:new(resources["powerCrystal"], 388, 19800, 1))
 end
 
 function switchToPlayState()

@@ -16,6 +16,6 @@ end
 function Resource:addToExploringPlayer(amount)
   player.inventory[self.name] = player.inventory[self.name] + amount
 end
-function Resource:getTexture() -- temportarily just returns a color
+function Resource:getTexture() 
   return self.r, self.g, self.b
 end
