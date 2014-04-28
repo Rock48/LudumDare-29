@@ -94,6 +94,8 @@ function craftItem(item)
   
   if(item.oncraft) then item.oncraft() end
   
+  craftSound:clone():play()
+  
 end
 
 -- Crafting Requirements (Machines etc)
@@ -109,57 +111,60 @@ ireg.refinery4 = newItem("Overclock Refinery Again", {ireg.refinery3}, {plastic=
 end)
 
 -- Equipment
-ireg.tankMk1 = newItem("Home-Made Tank", nil, {iron = 20},  function()
+ireg.tankMk1 = newItem("Home-Made Tank", nil, {iron = 40},  function()
   player.airCapacity = 10
 end)
-ireg.tankMk2 = newItem("Reinforced Tank", {ireg.tankMk1}, {iron = 50}, function()
+ireg.tankMk2 = newItem("Reinforced Tank", {ireg.tankMk1}, {iron = 80}, function()
   player.airCapacity = 15
 end)
-ireg.tankMk3 = newItem("Sealed Tank", {ireg.tankMk2, ireg.refinery}, {iron = 80, plastic=15}, function()
+ireg.tankMk3 = newItem("Sealed Tank", {ireg.tankMk2, ireg.refinery}, {iron = 120, plastic=15}, function()
   player.airCapacity = 25
 end)
-ireg.tankMk4 = newItem("Reinsealed Tank", {ireg.tankMk3, ireg.refinery}, {iron = 150, plastic=40}, function()
+ireg.tankMk4 = newItem("Reinsealed Tank", {ireg.tankMk3, ireg.refinery}, {iron = 250, plastic=40}, function()
   player.airCapacity = 40
 end)
-ireg.tankMk5 = newItem("Mega-Evolved Tank", {ireg.tankMk4, ireg.refinery}, {iron = 300, plastic=80}, function()
+ireg.tankMk5 = newItem("Mega-Evolved Tank", {ireg.tankMk4, ireg.refinery}, {iron = 500, plastic=80}, function()
   player.airCapacity = 70
 end)
-ireg.tankMk6 = newItem("Giga Tank", {ireg.tankMk5, ireg.refinery}, {iron = 1000, plastic=120, uranium=5}, function()
+ireg.tankMk6 = newItem("Giga Tank", {ireg.tankMk5, ireg.refinery}, {iron = 1250, plastic=120, uranium=5}, function()
   player.airCapacity = 100
 end)
-ireg.tankMk7 = newItem("SuperMegaUberTank5000", {ireg.tankMk6, ireg.refinery}, {iron = 2500, plastic=300, uranium=15}, function()
+ireg.tankMk7 = newItem("SuperMegaUberTank5000", {ireg.tankMk6, ireg.refinery}, {iron = 3500, plastic=300, uranium=25}, function()
   player.airCapacity = 180
 end)
 
 ireg.pSuitMk1 = newItem("Pressure Suit", nil, {iron=120}, function() 
   player.maxDepth = 2000
 end)
-ireg.pSuitMk2 = newItem("High Pressure Suit", {ireg.pSuitMk1}, {iron=250,plastic=25}, function()
+ireg.pSuitMk2 = newItem("High Pressure Suit", {ireg.pSuitMk1, ireg.refinery}, {iron=250,plastic=25}, function()
   player.maxDepth = 4000
 end)
-ireg.pSuitMk3 = newItem("Double Pressure Suit", {ireg.pSuitMk2}, {iron=1000,plastic=100}, function()
+ireg.pSuitMk3 = newItem("Increasingly Higher Pressure Suit", {ireg.pSuitMk2, ireg.refinery}, {iron=1000,plastic=100}, function()
+  player.maxDepth = 8000 
+end)
+ireg.pSuitMk4 = newItem("Double Pressure Suit", {ireg.pSuitMk3, ireg.refinery}, {iron=1000,plastic=100}, function()
   player.maxDepth = 12000 
 end)
-ireg.pSuitMk4 = newItem("Radioactive Pressure Suit", {ireg.pSuitMk3}, {iron=1500,plastic=150, uranium=5}, function()
+ireg.pSuitMk5 = newItem("Radioactive Pressure Suit", {ireg.pSuitMk4, ireg.refinery}, {iron=2500,plastic=150, uranium=10}, function()
   player.maxDepth = 16000
 end)
-ireg.pSuitMk5 = newItem("Fusion Powered Pressure Suit", {ireg.pSuitMk4}, {iron=3500, plastic=500, uranium=35}, function()
+ireg.pSuitMk6 = newItem("Fusion Powered Pressure Suit", {ireg.pSuitMk5, ireg.refinery}, {iron=4500, plastic=500, uranium=65}, function()
   player.maxDepth = 20000
 end)
 
 ireg.flippers = newItem("Flippers", {ireg.refinery}, {plastic=50}, function()
   PLAYER_SPEED = PLAYER_SPEED + 90
 end)
-ireg.rockets = newItem("Rockets", {ireg.refinery, ireg.flippers}, {plastic=200, iron=1000}, function()
+ireg.rockets = newItem("Rockets", {ireg.refinery, ireg.flippers}, {plastic=200, iron=1250}, function()
   PLAYER_SPEED = PLAYER_SPEED + 140
 end)
-ireg.radRockets = newItem("Radioactive Rocket", {ireg.refinery, ireg.rockets}, {plastic=600, iron=2000, uranium=25}, function()
+ireg.radRockets = newItem("Radioactive Rocket", {ireg.refinery, ireg.rockets}, {plastic=600, iron=3500, uranium=60}, function()
   PLAYER_SPEED = PLAYER_SPEED + 180
 end)
 
 -- Other
 
-ireg.escapeShip = newItem("Escape Boat", {ireg.pSuitMk5}, {iron=4000, plastic=600, uranium=40, powerCrystal=1}, function()
+ireg.escapeShip = newItem("Escape Boat", {ireg.pSuitMk6}, {iron=10000, plastic=1000, uranium=100, powerCrystal=1}, function()
   
   lightWorld = love.light.newWorld()
   lightWorld.setAmbientColor(40,40,40)

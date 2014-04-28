@@ -33,5 +33,9 @@ function Player:update(dt)
   end
 end
 function Player:draw()
-  love.graphics.circle("fill",self.x,self.y,20)
+  love.graphics.push()
+  love.graphics.translate(self.x,self.y)
+  love.graphics.rotate(math.rad(playerAngle))
+  player_anim:draw(-20, -20)--, math.rad(playerAngle),1,1,20,20)
+  love.graphics.pop()
 end

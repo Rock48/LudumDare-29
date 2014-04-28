@@ -1,25 +1,31 @@
-    Ideas
-   =======
+    Ideas / TODO
+   ==============
    
    Something Fun!
    
    Progression Game
    ================
    
-   The player must go underwater, each time they do, they collect resources and come back after a time
-   After the time limit the player must resurface with whatever they collected.
+   The player must go underwater, each time they do, they collect resources and come back after a time -- Done!
+   After the time limit the player must resurface with whatever they collected. -- Done!
    
    Goal:
    
    
-   The player must collect the thing at the bottom of the ocean (whatever that may be) to escape, at that point they win.
+   The player must collect the thing at the bottom of the ocean (whatever that may be) to escape, at that point they win. -- Done!
    
    
-   Resource types: metal, oil, plastic, others?
-   progression system (every now and then the player can upgrade their air tank so they can stay under water for longer
+   Resource types: metal, oil, plastic, others? -- Done!
+   progression system (every now and then the player can upgrade their air tank so they can stay under water for longer -- Done!
    
-   the player also needs to upgrade their suit, so they can go deeper without being crushed.
+   the player also needs to upgrade their suit, so they can go deeper without being crushed. -- Done!
    
-   The player will have to avoid enemies and obsticles in their way.
+   The player will have to avoid enemies and obsticles in their way. -- Maybe
    
-   Perhaps add some sort of bubble system so they can get air underwater without having to resurface.
+   Perhaps add some sort of bubble system so they can get air underwater without having to resurface. --No, ruins balance
+   
+   Todo:
+   
+   Images for Uranium & Power crystal
+   More resources as you go deeper -- Done!
+   
