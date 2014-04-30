@@ -22,6 +22,28 @@ WIN = 4
 gamestate = CRAFTING_MENU
 RESOURCE_SIZE = 24
 
+function defaultConfig()
+  key_up = "w"
+  key_down = "s"
+  key_left = "a"
+  key_right = "d"
+  shake_enabled = true
+end
+
+function readConfig()
+  
+  if(love.filesystem.exists("config.lua")) then
+    conf = love.filesystem.load("config.lua")()
+    key_up = conf.up
+    key_down = conf.down
+    key_right = conf.right
+    key_left = conf.left
+    shake_enabled = conf.enable_shake
+  else
+    defaultConfig()
+  end
+end
+
 function table.set(t) -- set of list
   local u = { }
   for _, v in ipairs(t) do u[v] = true end
@@ -31,6 +53,8 @@ end
 function love.load(arg)
   
   --require("mobdebug").start()
+  
+  readConfig()
   
   oil = love.graphics.newImage("oil.png")
   iron = love.graphics.newImage("iron.png")
@@ -93,7 +117,7 @@ function love.update(dt)
   if(gamestate == EXPLORING) then
     player:update(dt)
     
-    if(love.keyboard.isDown("w")) then 
+    if(love.keyboard.isDown(key_up)) then 
       
       up = true
       
@@ -108,7 +132,7 @@ function love.update(dt)
       up = false
     end  
     
-    if(love.keyboard.isDown("s")) then 
+    if(love.keyboard.isDown(key_down)) then 
       down = true
       player.y = player.y + PLAYER_SPEED * dt 
       if(player.y > 400 + cam_y) then
@@ -117,13 +141,13 @@ function love.update(dt)
     else
       down = false
     end  
-    if(love.keyboard.isDown("a")) then 
+    if(love.keyboard.isDown(key_left)) then 
       left = true
       player.x = player.x - PLAYER_SPEED * dt
     else
       left = false
     end  
-    if(love.keyboard.isDown("d")) then 
+    if(love.keyboard.isDown(key_right)) then 
       right = true
       player.x = player.x + PLAYER_SPEED * dt 
     else
@@ -240,9 +264,8 @@ function love.draw()
     
     
     love.graphics.push()
-      --shake test
-      
-      love.graphics.translate(math.random()*shake_mult*2-shake_mult,math.random()*shake_mult*2-shake_mult)
+      if(shake_enabled) then
+        love.graphics.translate(math.random()*shake_mult*2-shake_mult,math.random()*shake_mult*2-shake_mult) end
       love.graphics.draw(bg, bgQuad, 0, -cam_y % 64 -64)
       love.graphics.translate(0,-cam_y)
       
