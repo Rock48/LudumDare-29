@@ -9,6 +9,7 @@ require "Player"
 require "ResourceNode"
 require "CraftingAndInventory"
 
+
 TUTORIAL_0 = 0
 TUTORIAL_1 = 0.1
 TUTORIAL_2 = 0.2
@@ -32,16 +33,18 @@ end
 
 function readConfig()
   
-  if(love.filesystem.exists("config.lua")) then
-    conf = love.filesystem.load("config.lua")()
+  dir = love.filesystem.getWorkingDirectory()
+  
+  --if(love.filesystem.exists("config.lua")) then
+    conf = require "config"
     key_up = conf.up
     key_down = conf.down
     key_right = conf.right
     key_left = conf.left
     shake_enabled = conf.enable_shake
-  else
-    defaultConfig()
-  end
+  --else
+    --defaultConfig()
+  --end
 end
 
 function table.set(t) -- set of list
@@ -364,24 +367,24 @@ function genWorld()
       elseif(i*SPARSITY<8000) then
         iron = math.random(10, 30)
         oil = math.random(5, 12)
-        uranium = 1
+        uranium = 0
         
       elseif(i*SPARSITY<12000) then
         iron = math.random(25, 40)
         oil = math.random(7, 15)
-        uranium = 1
+        uranium = math.random(1,3)
         
       elseif(i*SPARSITY<16000) then
         
         iron = math.random(35, 60)
         oil = math.random(17, 25)
-        uranium = math.random(1,2)
+        uranium = math.random(3,6)
         
       else
         
         iron = math.random(55, 80)
         oil = math.random(28, 40)
-        uranium = math.random(2,5)
+        uranium = math.random(5,10)
         
       end
       
